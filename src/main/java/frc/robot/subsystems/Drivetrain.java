@@ -93,6 +93,7 @@ public class Drivetrain extends SubsystemBase {
       mRightLeader.setInverted(InvertType.None);
       mRightLeader.setSensorPhase(false);
     }
+    mDrive.setRightSideInverted(false);
 
 
     SmartDashboard.putData("Field", mField);
@@ -109,7 +110,7 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
   public void simulationPeriodic() {
-    mDriveSim.setInputs(mLeftLeader.getMotorOutputVoltage(), -mRightLeader.getMotorOutputVoltage());
+    mDriveSim.setInputs(mLeftLeader.getMotorOutputVoltage(), mRightLeader.getMotorOutputVoltage());
 
     mDriveSim.update(0.02);
 
@@ -169,9 +170,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    if (!RobotBase.isReal()) {
-      rightVolts = -rightVolts;
-    }
+    
     mLeftLeader.setVoltage(leftVolts);
     mRightLeader.setVoltage(rightVolts);
     mDrive.feed();
