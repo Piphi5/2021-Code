@@ -4,7 +4,11 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -18,6 +22,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private XboxController mController = new XboxController(Constants.XboxControllerPort);
+  private VictorSPX mIntake = new VictorSPX(Constants.VictorSPXPort);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -81,7 +87,15 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    if (mController.getAButton()) {
+      mIntake.set(ControlMode.PercentOutput, Constants.kIntakePower);
+    } else if (mController.getBButton()) {
+      mIntake.set(ControlMode.PercentOutput, -Constants.kIntakePower);
+    } else {
+      mIntake.set(ControlMode.PercentOutput, 0);
+    }
+  }
 
   @Override
   public void testInit() {

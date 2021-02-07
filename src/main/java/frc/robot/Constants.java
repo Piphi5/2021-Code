@@ -13,7 +13,7 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static int kIntakePower = 5;
+    public static double kIntakePower = 0.5;
     public static final int VictorSPXPort = 2;
     public static final int XboxControllerPort = 0;
 }
